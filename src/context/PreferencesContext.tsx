@@ -1,13 +1,10 @@
 import React from "react";
-import { PaperTheme } from "../types";
 type PreferencesContextType = {
-  setTheme: (customTheme?: PaperTheme) => void;
-  setIsThemeCustom: (isThemeCustom: boolean) => void;
-  isThemeCustom: boolean;
+  toggleTheme: () => void;
+  isThemeDark: boolean;
 };
 
 export const PreferencesContext = React.createContext<PreferencesContextType>({
-  setTheme: () => {},
-  setIsThemeCustom: () => {},
-  isThemeCustom: false,
+  toggleTheme: () => {},
+  isThemeDark: false,
 });

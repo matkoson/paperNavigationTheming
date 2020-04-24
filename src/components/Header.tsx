@@ -4,11 +4,10 @@ import { StackHeaderProps } from "@react-navigation/stack";
 import { View, StyleSheet, Text } from "react-native";
 import { useTheme } from "react-native-paper";
 import { PreferencesContext } from "../context/PreferencesContext";
-import ThemeMenu from "./ThemeMenu";
 
 const Header = ({ scene, previous, navigation }: StackHeaderProps) => {
   const theme = useTheme();
-  const { setTheme } = React.useContext(PreferencesContext);
+  const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
 
   return (
     <Appbar.Header
@@ -24,25 +23,29 @@ const Header = ({ scene, previous, navigation }: StackHeaderProps) => {
         onPress={navigation.goBack}
       />
       <Appbar.Content style={styles.appBarContent} title={scene.route?.name} />
-      <View style={styles.themeSettingsContainer}>
-        <ThemeMenu />
-        {/* <TouchableRipple onPress={() => setTheme()}>
+      {/* <View style={styles.themeSettingsContainer}>
+        <TouchableRipple onPress={() => toggleTheme()}>
           <View style={styles.preference}>
             <Text
               style={{
-                color: theme?.colors.onSurface,
+                color: theme.colors.onSurface,
               }}
             >
               Dark
             </Text>
-            <Switch
-              style={[{ backgroundColor: theme?.colors.accent }, styles.switch]}
-              color={"red"}
-              value={theme.dark}
-            />
+            <View pointerEvents="none">
+              <Switch
+                style={[
+                  { backgroundColor: theme.colors.accent },
+                  styles.switch,
+                ]}
+                color={"red"}
+                value={isThemeDark}
+              />
+            </View>
           </View>
-        </TouchableRipple> */}
-      </View>
+        </TouchableRipple>
+      </View> */}
     </Appbar.Header>
   );
 };
