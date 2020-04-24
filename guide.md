@@ -17,6 +17,8 @@ Fortunately, both `React Navigation` and `React Native Paper` offer very similar
 In both libraries both theme types are named the same -`DefaultTheme` and `DarkTheme`, so we alias them at the imports.
 
 ```
+// App.tsx
+
 import {
   NavigationContainer,
   DarkTheme as NavigationDarkTheme,
@@ -66,6 +68,8 @@ To make things easier we can use [deepmerge](https://www.npmjs.com/package/deepm
 <code>yarn add deepmerge</code>
 
 ```
+// App.tsx
+
 import merge from "deepmerge";
 
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
@@ -99,6 +103,9 @@ After combining the themes, we will be able to control the theming in both libra
 Next, we need to pass combined themes into the wrappers. For this part, we use the dark one - `CombinedDarkTheme`.
 
 ```
+
+// App.tsx
+...
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
 
@@ -140,17 +147,20 @@ If you need help, checkout `darkMode` branch and continue following the guide fr
 ![simulator-ios-24-04-2020-08-472](https://user-images.githubusercontent.com/41837132/80191395-ebfec900-8615-11ea-8813-538df4def6b9.jpg)
 
 But we don't need to limit ourselves to the themes offered by libraries in default. Both packages allow for custom themes to be applied.
-You can learn about it their documentations:
+You can learn all about it their documentations:
 
-- [React Navigation](https://reactnavigation.org/docs/themes/)
-- [React Native Paper](https://callstack.github.io/react-native-paper/theming.html)
+- [Theming in React Navigation](https://reactnavigation.org/docs/themes/)
+- [Theming in React Native Paper](https://callstack.github.io/react-native-paper/theming.html)
 
-Now, we wouldn't want to stay forever with dark theme being on, which is why we need gain the ability to control the theme dynamically. We need to introduce some React state for this purpose.
+Now, we wouldn't want to stay forever with dark theme being on, which is why we need to gain the ability to control theme dynamically. We need to introduce some React state for this purpose.
 
 `React Context` proves itself very useful in handling cross-cutting concerns like global theme handling, so we will use just that.
 
 ```
 
+// App.tsx
+
+...
 import { PreferencesContext } from "./src/context/PreferencesContext";
 
 const Stack = createStackNavigator();
@@ -204,15 +214,15 @@ export default function App() {
   );
 }
 
-}
-
 ```
 
-Context is already created for you, all you need to do is import it, as seem above. Now, as logic for switching between themes is ready, we need some component to control it. We will use `Paper`'s `Switch` for this end. All of the work is already done, just go to `src/components/Header` and uncomment the wrapped `Switch` component. `Header.tsx` should now look like this.
+Context is already created for you, all you need to do is import it, as seen above. Now, as logic for switching between themes is ready, we need some UI element to control it. We will use `Paper`'s [Switch](https://callstack.github.io/react-native-paper/switch.html) for this end. All of the work is already done, just go to `src/components/Header` and uncomment the wrapped `<Switch />` component. `Header.tsx` should now look like this.
 
 ```
+// src/components/Header.tsx
+
+...
 import { PreferencesContext } from "../context/PreferencesContext";
-import { useTheme } from "react-native-paper";
 
 const Header = ({ scene, previous, navigation }: StackHeaderProps) => {
   const theme = useTheme();
@@ -259,6 +269,8 @@ const Header = ({ scene, previous, navigation }: StackHeaderProps) => {
   );
 };
 
+export default Header;g
+
 
 ```
 
@@ -266,10 +278,10 @@ And now you can switch between light and dark theme!
 
 ![paperGuide1](https://user-images.githubusercontent.com/41837132/80189473-008d9200-8613-11ea-9435-a38e5baec16b.gif)
 
-Thanks to the linking of themes that did earlier we can control switching themes with only one piece of state.
+Thanks to the linking of themes that we did earlier, we can control switching themes with only one piece of state.
 
-`React Native Paper` components will automatically use theme thanks to the `PaperProvider` that is wrapped around our `App.tsx`, but we can also access theme values manually using `useTheme` hook,
-provided by the library. The example is seen above in `Header.tsx` component.
+`React Native Paper` components will automatically use provided theme thanks to the `PaperProvider` that is wrapped around our `App.tsx`, but we can also access theme values manually with `useTheme` hook,
+exposed by the library. You can see how it's done in the `Header` code above.
 
 If light/dark themes are not enough for your use case, you can learn more about creating Material Design themes [here](https://material.io/design/material-theming/implementing-your-theme.html#color).
-On `master` branch of the example app, you will find implemented [Menu](https://callstack.github.io/react-native-paper/menu.html) component, which allows to choose more custom themes. Inspecting code in `utils` and `Header` may give you some idea how to use you themes with `Paper`, in addition to dedicated [docs](https://callstack.github.io/react-native-paper/menu.html).
+On `master` branch of the example app, you will find implemented [Menu](https://callstack.github.io/react-native-paper/menu.html) component, which allows to choose a few custom themes. Inspecting code in `utils` and `Header` may give you some idea how to use your own themes with `Paper`, in addition to dedicated [docs](https://callstack.github.io/react-native-paper/menu.html).
