@@ -8,13 +8,13 @@ import ThemeMenu from "./ThemeMenu";
 
 const Header = ({ scene, previous, navigation }: StackHeaderProps) => {
   const theme = useTheme();
-  const { setTheme, isThemeCustom } = React.useContext(PreferencesContext);
+  const { setTheme } = React.useContext(PreferencesContext);
 
   return (
     <Appbar.Header
       theme={{
         colors: {
-          primary: isThemeCustom ? theme.colors.primary : theme.colors.surface,
+          primary: theme?.colors.surface,
         },
       }}
     >
@@ -26,31 +26,22 @@ const Header = ({ scene, previous, navigation }: StackHeaderProps) => {
       <Appbar.Content style={styles.appBarContent} title={scene.route?.name} />
       <View style={styles.themeSettingsContainer}>
         <ThemeMenu />
-        <TouchableRipple onPress={() => setTheme()}>
+        {/* <TouchableRipple onPress={() => setTheme()}>
           <View style={styles.preference}>
             <Text
               style={{
-                color: isThemeCustom
-                  ? theme.colors.onSurface
-                  : theme.colors.onSurface,
+                color: theme?.colors.onSurface,
               }}
             >
               Dark
             </Text>
-            <View pointerEvents="none">
-              <Switch
-                style={[
-                  isThemeCustom
-                    ? { backgroundColor: theme.colors.accent }
-                    : null,
-                  styles.switch,
-                ]}
-                color={"red"}
-                value={theme.dark}
-              />
-            </View>
+            <Switch
+              style={[{ backgroundColor: theme?.colors.accent }, styles.switch]}
+              color={"red"}
+              value={theme.dark}
+            />
           </View>
-        </TouchableRipple>
+        </TouchableRipple> */}
       </View>
     </Appbar.Header>
   );
